@@ -2,7 +2,7 @@ from stats import show_statistics, export_report
 from storage import save_students, load_students
 from models import validate_name, validate_email, validate_duplicate_email, validate_age, validate_subject, validate_grade
 
-students = load_students()
+
 
 
 # =========================
@@ -23,7 +23,7 @@ def show_menu():
 # =========================
 # Helper Functions
 # =========================
-def generate_id():
+def generate_id(students):
 
     if len(students) == 0:
         return 1
@@ -40,11 +40,11 @@ def generate_id():
 # =========================
 # Student Functions
 # =========================
-def add_student():
+def add_student(students):
 
     print("\n=== Add Student ===")
 
-    student_id = generate_id()
+    student_id = generate_id(students)
 
     # Name Validation
     while True:
@@ -134,7 +134,7 @@ def add_student():
     print("Student Added Successfully!")
 
 
-def list_students():
+def list_students(students):
 
     print("\n===== Student List =====")
 
@@ -154,7 +154,7 @@ def list_students():
         )
 
 
-def search_student():
+def search_student(students):
 
     print("\n===== Search Student =====")
 
@@ -179,7 +179,7 @@ def search_student():
         print("Student not found.")
 
 
-def update_student():
+def update_student(students):
 
     print("\n===== Update Student =====")
 
@@ -230,7 +230,7 @@ def update_student():
     print("Student Not Found!")
 
 
-def delete_student():
+def delete_student(students):
 
     print("\n===== Delete Student =====")
 
@@ -301,31 +301,30 @@ def delete_student():
             return
 
     print("Invalid Student ID!")
-# =========================
+ # =========================
 # Main Function
 # =========================
 def main():
-
+    students = load_students()
     while True:
 
         show_menu()
 
         choice = input("\nEnter your choice: ")
-
         if choice == "1":
-            add_student()
+            add_student(students)
 
         elif choice == "2":
-            list_students()
+            list_students(students)
 
         elif choice == "3":
-            search_student()
+            search_student(students)
 
         elif choice == "4":
-            update_student()
+            update_student(students)
 
         elif choice == "5":
-            delete_student()
+            delete_student(students)
 
         elif choice == "6":
             show_statistics(students)

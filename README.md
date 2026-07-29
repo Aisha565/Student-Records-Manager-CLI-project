@@ -4,7 +4,7 @@
 
 Student Records Manager is a Python-based Command Line Interface (CLI) application developed to efficiently manage student records. The application allows users to add, search, update, delete, and list student information. It also generates class statistics and exports reports while storing all student records permanently in a JSON file.
 
-The project follows a modular programming approach by separating the application into different modules for validation, storage, and statistics.
+The project follows a modular programming approach by separating the application into different modules for validation, storage, and statistics. Student records are loaded once inside the `main()` function and passed to other functions using parameters instead of global variables, making the code more organized, readable, and maintainable.
 
 ---
 
@@ -37,6 +37,7 @@ The project follows a modular programming approach by separating the application
 - Duplicate Email Prevention
 - JSON Data Storage
 - Modular Programming
+- Parameter Passing Instead of Global Variables
 
 ---
 
@@ -58,6 +59,7 @@ student-records-cli/
 ├── models.py
 ├── storage.py
 ├── stats.py
+├── stats_helper.py
 ├── README.md
 ├── report.txt
 │
@@ -73,11 +75,13 @@ student-records-cli/
 
 This is the main entry point of the application.
 
-Responsibilities:
+### Responsibilities
 
+- Load student records using `load_students()`
 - Display the menu
 - Handle user interaction
 - Manage program flow
+- Pass student data to other functions using parameters
 - Call functions from other modules
 
 The application starts using:
@@ -87,7 +91,7 @@ if __name__ == "__main__":
     main()
 ```
 
-This ensures that the program runs only when `main.py` is executed directly.
+Student records are loaded once inside the `main()` function using `load_students()`. Instead of using global variables, the student list is passed to other functions as a parameter, making the application more modular and easier to maintain.
 
 ---
 
@@ -110,7 +114,7 @@ This module contains all input validation functions.
 
 This module is responsible for loading and saving student records using JSON.
 
-Functions:
+### Functions
 
 - `load_students()`
 - `save_students()`
@@ -121,16 +125,32 @@ Student records are stored in:
 data/students.json
 ```
 
+The JSON file is read and written using **UTF-8 encoding**, ensuring proper handling of text data.
+
 ---
 
 ## stats.py
 
-This module generates statistics and exports reports.
+This module displays student statistics and exports reports.
 
-Functions:
+### Functions
 
 - `show_statistics()`
 - `export_report()`
+
+---
+
+## stats_helper.py
+
+This module contains helper functions used by `stats.py`.
+
+Responsibilities:
+
+- Calculate subject averages
+- Calculate highest scoring student
+- Calculate lowest scoring student
+- Calculate grade distribution
+- Remove duplicate logic from `stats.py`
 
 ---
 
@@ -208,7 +228,7 @@ The delete operation works as follows:
 1. The user enters the student's name.
 2. The system searches for all students with the same name.
 3. All matching student records are displayed.
-4. The user selects the desired student by entering the Student ID from the displayed list.
+4. The user selects the required student by entering the Student ID from the displayed list.
 5. The system asks for confirmation before deletion.
 6. The selected student is permanently deleted.
 
@@ -221,10 +241,12 @@ This approach ensures that the correct student is deleted even when multiple stu
 The application provides:
 
 - Total Students
-- Class Average Per Subject
+- Subject-wise Average
 - Highest Scoring Student
 - Lowest Scoring Student
 - Grade Distribution (A, B, C, F)
+
+If no grades are available, the application safely handles the situation without crashing.
 
 ---
 
@@ -257,7 +279,8 @@ data/students.json
 
 The data is automatically:
 
-- Loaded when the application starts.
+- Loaded once in the `main()` function when the application starts.
+- Passed to other functions using parameters.
 - Saved after adding a student.
 - Saved after updating a student.
 - Saved after deleting a student.
@@ -311,7 +334,9 @@ if __name__ == "__main__":
 - Student Statistics
 - Report Export Feature
 - Smart Student Deletion Using Name with Matching Record Selection
-- Uses `if __name__ == "__main__"` as the application entry point
+- Parameter Passing Instead of Global Variables
+- Uses UTF-8 Encoding for JSON File Handling
+- Uses `if __name__ == "__main__"` as the Application Entry Point
 
 ---
 
